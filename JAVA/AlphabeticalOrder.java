@@ -1,33 +1,47 @@
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
-public class AlphabeticalOrder {
+public class AlphabeticalOrder{
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<String> names = new ArrayList<>();
-        while (true) {
-            System.out.print("Enter a name (or type 'done' to finish): ");
-            String name = scanner.nextLine();
-            if (name.equalsIgnoreCase("done")) {
-                break;
-            }
-            names.add(name);
+        int n;
+        System.out.print("Enter the number of names: ");
+        n = scanner.nextInt();
+        scanner.nextLine(); 
+        String[] names = new String[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter name " + (i + 1) + ": ");
+            names[i] = scanner.nextLine();
         }
-
-        System.out.print("Order (A for Ascending, D for Descending): ");
-        char order = scanner.nextLine().charAt(0);
-        scanner.close();
-        if (order == 'A' || order == 'a') {
-            Collections.sort(names);
-        } else if (order == 'D' || order == 'd') {
-            Collections.sort(names, Collections.reverseOrder());
+        System.out.print("Enter 'A' for ascending or 'D' for descending order: ");
+        char choice = scanner.nextLine().toUpperCase().charAt(0);
+        if (choice == 'A') {
+            // Sort in ascending order
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    if (names[i].compareTo(names[j]) > 0) {
+                        String temp = names[i];
+                        names[i] = names[j];
+                        names[j] = temp;
+                    }
+                }
+            }
+        } else if (choice == 'D') {
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    if (names[i].compareTo(names[j]) < 0) {
+                        String temp = names[i];
+                        names[i] = names[j];
+                        names[j] = temp;
+                    }
+                }
+            }
         } else {
-            System.out.println("Invalid choice. Please enter 'A' or 'D' for order.");
+            System.out.println("Invalid choice. Please enter 'A' or 'D'.");
             return;
         }
         System.out.println("Sorted Names:");
-        for (String sortedName : names) {
-            System.out.println(sortedName);
+        for (String name : names) {
+            System.out.println(name);
         }
+      scanner.close();
     }
 }
